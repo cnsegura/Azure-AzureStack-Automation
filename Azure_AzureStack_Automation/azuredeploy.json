@@ -100,7 +100,7 @@
             }
           },
           {
-            "name": "KafkaREST",
+            "name": "StormUI",
             "properties": {
               "description": "Storm UI port",
               "protocol": "Tcp",
@@ -247,19 +247,19 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'),'/LinuxDockerExtension')]",
+      "name": "[concat(variables('vmName'),'/LinuxIaaSIoTExtension')]",
       "apiVersion": "[variables('apiVersion').compute]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
       ],
       "properties": {
-        "publisher": "Microsoft.Azure.Extensions",
-        "type": "DockerExtension",
-        "typeHandlerVersion": "1.0",
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.4",
         "settings": {
           "fileUris": [ "[variables('scriptFile')]" ],
-          "commandToExecute": "sh install_Confluent_Storm.sh"
+          "commandToExecute": "bash install_Confluent_Storm.sh"
         }
       }
     }
