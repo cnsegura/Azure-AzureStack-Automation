@@ -48,8 +48,8 @@
     "vmSize": "Standard_A1",
     "virtualNetworkName": "myVnet",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
-    "assetLocation": "https: //github.com/cnsegura/Azure-AzureStack-Automation/tree/master/Azure_AzureStack_Automation",
-    "scriptFileName": "docker.sh",
+    "assetLocation": "https://raw.githubusercontent.com/cnsegura/Azure-AzureStack-Automation/master/Azure_AzureStack_Automation",
+    "scriptFileName": "install_Confluent_Storm.sh",
     "scriptFile": "[concat(variables('assetLocation'),'/',variables('scriptFileName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
     "networkSecurityGroupName": "mySG",
@@ -259,7 +259,7 @@
         "typeHandlerVersion": "1.0",
         "settings": {
           "fileUris": [ "[variables('scriptFile')]" ],
-          "commandToExecute": "sh docker.sh"
+          "commandToExecute": "sh install_Confluent_Storm.sh"
         }
       }
     }
