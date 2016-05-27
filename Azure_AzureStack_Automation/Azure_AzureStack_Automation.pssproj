@@ -28,7 +28,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="azuredeploy.json" />
-    <Content Include="install_Confluent_Storm" />
+    <Content Include="install_Confluent_Storm.sh" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Script.ps1" />

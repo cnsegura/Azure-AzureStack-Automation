@@ -48,7 +48,7 @@
     "vmSize": "Standard_A1",
     "virtualNetworkName": "myVnet",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
-    "assetLocation": "https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/master/201-complex-linux-vm",
+    "assetLocation": "https: //github.com/cnsegura/Azure-AzureStack-Automation/tree/master/Azure_AzureStack_Automation",
     "scriptFileName": "docker.sh",
     "scriptFile": "[concat(variables('assetLocation'),'/',variables('scriptFileName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
@@ -72,15 +72,44 @@
       "properties": {
         "securityRules": [
           {
-            "name": "rule1",
+            "name": "ssh",
             "properties": {
-              "protocol": "*",
+              "description": "SSH port",
+              "protocol": "Tcp",
               "sourcePortRange": "*",
-              "destinationPortRange": "*",
-              "sourceAddressPrefix": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "KafkaREST",
+            "properties": {
+              "description": "Kafka REST port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8082",
+              "sourceAddressPrefix": "Internet",
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 101,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "KafkaREST",
+            "properties": {
+              "description": "Storm UI port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8080",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 102,
               "direction": "Inbound"
             }
           }
@@ -218,24 +247,6 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'),'/LinuxCustomScriptExtension')]",
-      "apiVersion": "[variables('apiVersion').compute]",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.OSTCExtensions",
-        "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.3",
-        "settings": {
-          "commandToExecute": "touch /test.txt",
-          "enableInternalDNSCheck": "false"
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'),'/LinuxDockerExtension')]",
       "apiVersion": "[variables('apiVersion').compute]",
       "location": "[resourceGroup().location]",
@@ -249,25 +260,6 @@
         "settings": {
           "fileUris": [ "[variables('scriptFile')]" ],
           "commandToExecute": "sh docker.sh"
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'),'/LinuxVMAccessExtension')]",
-      "apiVersion": "[variables('apiVersion').compute]",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.OSTCExtensions",
-        "type": "VMAccessForLinux",
-        "typeHandlerVersion": "1.3",
-        "settings": { },
-        "protectedSettings": {
-          "username": "[parameters('adminUsername')]",
-          "password": "[parameters('adminPassword')]"
         }
       }
     }
