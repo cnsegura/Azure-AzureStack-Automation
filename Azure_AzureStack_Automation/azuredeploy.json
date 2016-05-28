@@ -30,7 +30,7 @@
   },
   "variables": {
     "dnsNameForPublicIP": "[concat('dns', resourceGroup().name)]",
-    "dnsserver": "192.168.100.2",
+    "dnsserver": "(parameters('dnsServerIp'))",
     "location": "[resourceGroup().location]",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
@@ -139,61 +139,41 @@
     },
     {
       "apiVersion": "[variables('apiVersion').network]",
-      "type": "Microsoft.Network/virtualNetworks",
+      "type": "Microsoft.Resources/deployments",
       "name": "[variables('virtualNetworkName')]",
-      "location": "[variables('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
       ],
       "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[variables('addressPrefix')]"
-          ]
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('assetLocation'),'/','AzureVnet.json')]"
         },
-        "subnets": [
-          {
-            "name": "[variables('subnetName')]",
-            "properties": {
-              "addressPrefix": "[variables('subnetPrefix')]",
-              "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
-              }
-            }
+        "parameters": {
+          "region": {
+            "value": "[variables('location')]"
           }
-        ],
-        "dhcpOptions": {
-          "dnsServers": [ "[variables('dnsserver')]" ]
         }
       }
     },
     {
       "apiVersion": "[variables('apiVersion').network]",
-      "type": "Microsoft.Network/networkInterfaces",
+      "type": "Microsoft.Resources/deployments",
       "name": "[variables('nicName')]",
-      "location": "[variables('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
         "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
       ],
       "properties": {
-        "dnsSettings": {
-          "dnsServers": [ "[variables('dnsserver')]" ]
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('assetLocation'),'/','AzureNic.json')]"
         },
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Dynamic",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
-              },
-              "subnet": {
-                "id": "[variables('subnetRef')]"
-              }
-            }
+        "parameters": {
+          "region": {
+            "value": "[variables('location')]"
           }
-        ]
+        } 
       }
     },
     {
@@ -256,7 +236,7 @@
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
         "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.4",
+        "typeHandlerVersion": "1.3",
         "settings": {
           "fileUris": [ "[variables('scriptFile')]" ],
           "commandToExecute": "bash install_Confluent_Storm.sh"

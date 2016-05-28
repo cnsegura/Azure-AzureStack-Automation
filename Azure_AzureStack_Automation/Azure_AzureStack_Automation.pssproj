@@ -28,6 +28,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="azuredeploy.json" />
+    <Content Include="AzureNic.json" />
+    <Content Include="AzureVnet.json" />
     <Content Include="install_Confluent_Storm.sh" />
   </ItemGroup>
   <ItemGroup>
