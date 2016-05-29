@@ -161,7 +161,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('assetLocation'),'/',toLower(variables('vnetOption')))]"
+          "uri": "[concat(variables('assetLocation'),'/',variables('vnetOption'))]"
         },
         "parameters": {
           "region": {
@@ -181,7 +181,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('assetLocation'),'/',toLower(variables('nicOption')))]"
+          "uri": "[concat(variables('assetLocation'),'/',variables('nicOption'))]"
         },
         "parameters": {
           "region": {
@@ -237,7 +237,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
+              "uri": "[concat(variables(parameters('deploymentEnv')),variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
 
             },
             "caching": "ReadWrite",
