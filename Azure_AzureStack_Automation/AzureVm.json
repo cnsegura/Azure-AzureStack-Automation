@@ -16,18 +16,19 @@
     }
   },
   "variables": {
-    "imagePublisher": "Canonical", 
-    "imageOffer": "UbuntuServer", 
+    "imagePublisher": "Canonical",
+    "imageOffer": "UbuntuServer",
     "ubuntuOSVersion": "15.10",
     "OSDiskName": "osdisk",
-    "nicName": "myVnic", 
-    "storageAccountName": "[concat('sa', resourceGroup().name)]", 
-    "vmSize": "Standard_A1", 
+    "nicName": "myVnic",
+    "vmStorageAccountContainerName": "vhds",
+    "storageAccountName": "[concat('sa', resourceGroup().name)]",
+    "vmSize": "Standard_A1",
     "apiVersion": {
       "resources": { "deployments": "2015-01-01" },
       "network": "2015-05-01-preview",
       "storage": "2015-05-01-preview",
-      "compute": "2015-06-15" 
+      "compute": "2015-06-15"
     }
   },
   "resources": [

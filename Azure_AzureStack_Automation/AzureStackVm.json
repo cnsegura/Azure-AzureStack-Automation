@@ -23,6 +23,7 @@
     "nicName": "myVnic",
     "storageAccountName": "[concat('sa', resourceGroup().name)]",
     "vmSize": "Standard_A1",
+    "vmStorageAccountContainerName": "vhds",
     "apiVersion": {
       "resources": { "deployments": "2015-01-01" },
       "network": "2015-05-01-preview",
