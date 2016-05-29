@@ -196,10 +196,10 @@
       }
     },
     {
-      "apiVersion": "[variables('apiVersion').compute]",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[variables('vmName')]",
-      "location": "[variables('location')]",
+        "apiVersion": "[variables('apiVersion').compute]",
+        "type": "Microsoft.Compute/virtualMachines",
+        "name": "[variables('vmName')]",
+        "location": "[variables('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[concat('Microsoft.Resources/deployments/', variables('nicName'))]"
@@ -223,7 +223,8 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
+              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
+
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
