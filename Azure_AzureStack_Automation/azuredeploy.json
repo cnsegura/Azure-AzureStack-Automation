@@ -42,7 +42,7 @@
   "variables": {
     "nicOption": "[concat(parameters('deploymentEnv'),'Nic.json')]",
     "vnetOption": "[concat(parameters('deploymentEnv'),'Vnet.json')]",
-    "Azure": "http://',variables('storageAccountName'),'.blob.core.windows.net/",
+    "Azure": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/')]",
     "dnsNameForPublicIP": "[concat('dns', resourceGroup().name)]",
     "dnsserver": "(parameters('dnsServerIp'))",
     "location": "[resourceGroup().location]",
