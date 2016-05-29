@@ -42,6 +42,7 @@
   "variables": {
     "nicOption": "[concat(parameters('deploymentEnv'),'Nic.json')]",
     "vnetOption": "[concat(parameters('deploymentEnv'),'Vnet.json')]",
+    "Azure": "http://',variables('storageAccountName'),'.blob.core.windows.net/",
     "dnsNameForPublicIP": "[concat('dns', resourceGroup().name)]",
     "dnsserver": "(parameters('dnsServerIp'))",
     "location": "[resourceGroup().location]",
@@ -160,7 +161,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('assetLocation'),'/',variables('vnetOption'))]"
+          "uri": "[concat(variables('assetLocation'),'/',toLower(variables('vnetOption')))]"
         },
         "parameters": {
           "region": {
@@ -180,7 +181,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('assetLocation'),'/',variables('nicOption'))]"
+          "uri": "[concat(variables('assetLocation'),'/',toLower(variables('nicOption')))]"
         },
         "parameters": {
           "region": {
