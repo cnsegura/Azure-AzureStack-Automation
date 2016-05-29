@@ -25,28 +25,16 @@
       "metadata": {
         "description": "Choose the environment you want to deploy to"
       }
-    },
-    "ubuntuOSVersion": {
-      "type": "string",
-      "defaultValue": "15.10",
-      "allowedValues": [
-        "14.04.2-LTS",
-        "14.04.3-LTS",
-        "15.10"
-      ],
-      "metadata": {
-        "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version. Allowed values:14.04.2-LTS, 14.04.3-LTS, 15.10."
-      }
     }
   },
   "variables": {
     "nicOption": "[concat(parameters('deploymentEnv'),'Nic.json')]",
     "vnetOption": "[concat(parameters('deploymentEnv'),'Vnet.json')]",
-    "Azure": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/')]",
+    "vmOption": "[concat(parameters('deploymentEnv'),'Vm.json')]",
     "dnsNameForPublicIP": "[concat('dns', resourceGroup().name)]",
     "dnsserver": "(parameters('dnsServerIp'))",
     "location": "[resourceGroup().location]",
-    "imagePublisher": "Canonical",
+    "imagePublisher": "(parameters('publisher'))",
     "imageOffer": "UbuntuServer",
     "OSDiskName": "osdisk",
     "nicName": "myVnic",
@@ -210,51 +198,27 @@
       }
     },
     {
-        "apiVersion": "[variables('apiVersion').compute]",
-        "type": "Microsoft.Compute/virtualMachines",
-        "name": "[variables('vmName')]",
-        "location": "[variables('location')]",
+      "apiVersion": "2015-01-01",
+      "type": "Microsoft.Resources/deployments",
+      "name": "[variables('vmName')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[concat('Microsoft.Resources/deployments/', variables('nicName'))]"
       ],
       "properties": {
-        "hardwareProfile": {
-          "vmSize": "[variables('vmSize')]"
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('assetLocation'),'/',variables('vmOption'))]"
         },
-        "osProfile": {
-          "computerName": "[variables('vmName')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[variables('imagePublisher')]",
-            "offer": "[variables('imageOffer')]",
-            "sku": "[parameters('ubuntuOSVersion')]",
-            "version": "latest"
+        "parameters": {
+          "region": {
+            "value": "[variables('location')]"
           },
-          "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat(variables(parameters('deploymentEnv')),variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
-
-            },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          }
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
-            }
-          ]
-        },
-        "diagnosticsProfile": {
-          "bootDiagnostics": {
-            "enabled": "true",
-            "storageUri": "[reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).primaryEndpoints.blob]"
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
           }
         }
       }
