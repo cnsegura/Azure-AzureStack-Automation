@@ -10,9 +10,6 @@
     },
     "adminPassword": {
       "type": "securestring"
-    },
-    "ipConfigurations": {
-      "type": "array"
     }
   },
   "variables": {
