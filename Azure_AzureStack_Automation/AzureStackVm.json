@@ -1,3 +1,82 @@
-#
-# AzureStackVm.ps1
-#
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "region": {
+      "type": "string"
+    },
+    "adminUsername": {
+      "type": "string"
+    },
+    "adminPassword": {
+      "type": "securestring"
+    },
+    "vmName": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "imagePublisher": "ECGCAT",
+    "imageOffer": "UbuntuServer",
+    "ubuntuOSVersion": "15-10",
+    "OSDiskName": "osdisk",
+    "nicName": "myVnic",
+    "storageAccountName": "[concat('sa', resourceGroup().name)]",
+    "vmSize": "Standard_A1",
+    "apiVersion": {
+      "resources": { "deployments": "2015-01-01" },
+      "network": "2015-05-01-preview",
+      "storage": "2015-05-01-preview",
+      "compute": "2015-06-15"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "[variables('apiVersion').compute]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('vmName')]",
+      "location": "[parameters('region')]",
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('vmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('vmName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('imagePublisher')]",
+            "offer": "[variables('imageOffer')]",
+            "sku": "[variables('ubuntuOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).primaryEndpoints.blob, variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": "true",
+            "storageUri": "[reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).primaryEndpoints.blob]"
+          }
+        }
+      }
+    }
+  ],
+
+  "outputs": { }
+}
