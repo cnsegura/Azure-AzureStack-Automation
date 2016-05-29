@@ -4,6 +4,12 @@
   "parameters": {
     "region": {
       "type": "string"
+    },
+    "nicName": {
+      "type": "string"
+    },
+    "ipConfigurations": {
+      "type": "array"
     }
   },
   "variables": {
@@ -29,20 +35,9 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicName')]",
       "location": "[parameters('region')]",
-      "ipConfigurations": [
-        {
-          "name": "ipconfig1",
-          "properties": {
-            "privateIPAllocationMethod": "Dynamic",
-            "publicIPAddress": {
-              "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
-            },
-            "subnet": {
-              "id": "[variables('subnetRef')]"
-            }
-          }
-        }
-      ]
+      "properties": {
+        "ipConfigurations": "[parameters('ipConfigurations')]"
+      }
     }
   ],
 
