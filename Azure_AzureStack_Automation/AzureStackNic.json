@@ -1,3 +1,49 @@
-#
-# AzureStackNic.ps1
-#
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "region": {
+      "type": "string"
+    },
+    "nicName": {
+      "type": "string"
+    },
+    "ipConfigurations": {
+      "type": "array"
+    }
+  },
+  "variables": {
+    "dnsserver": "192.168.100.2",
+    "nicName": "myVnic",
+    "addressPrefix": "10.0.0.0/24",
+    "subnetName": "mySubnet",
+    "subnetPrefix": "10.0.0.0/24",
+    "publicIPAddressName": "myPublicIP",
+    "virtualNetworkName": "myVnet",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+    "networkSecurityGroupName": "mySG",
+    "apiVersion": {
+      "resources": { "deployments": "2015-01-01" },
+      "network": "2015-05-01-preview",
+      "storage": "2015-05-01-preview",
+      "compute": "2015-06-15"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "[variables('apiVersion').network]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('nicName')]",
+      "location": "[parameters('region')]",
+      "properties": {
+        "dnsSettings": {
+          "dnsServers": [ "[variables('dnsserver')]" ]
+        },
+        "ipConfigurations": "[parameters('ipConfigurations')]"
+      }
+    }
+  ],
+
+  "outputs": { }
+}

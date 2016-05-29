@@ -15,6 +15,17 @@
         "description": "Password for the Virtual Machine."
       }
     },
+    "deploymentEnv": {
+      "type": "string",
+      "defaultValue": "Azure",
+      "allowedValues": [
+        "Azure",
+        "AzureStack"
+      ],
+      "metadata": {
+        "description": "Choose the environment you want to deploy to"
+      }
+    },
     "ubuntuOSVersion": {
       "type": "string",
       "defaultValue": "15.10",
@@ -29,6 +40,8 @@
     }
   },
   "variables": {
+    "nicOption": "[concat(parameters('deploymentEnv'),'Nic.json')]",
+    "vnetOption": "[concat(parameters('deploymentEnv'),'Vnet.json')]",
     "dnsNameForPublicIP": "[concat('dns', resourceGroup().name)]",
     "dnsserver": "(parameters('dnsServerIp'))",
     "location": "[resourceGroup().location]",
@@ -147,7 +160,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('assetLocation'),'/','AzureVnet.json')]"
+          "uri": "[concat(variables('assetLocation'),'/',variables('vnetOption'))]"
         },
         "parameters": {
           "region": {
@@ -167,7 +180,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('assetLocation'),'/','AzureNic.json')]"
+          "uri": "[concat(variables('assetLocation'),'/',variables('nicOption'))]"
         },
         "parameters": {
           "region": {
