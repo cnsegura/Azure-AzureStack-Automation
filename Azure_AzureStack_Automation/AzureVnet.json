@@ -18,7 +18,7 @@
     "networkSecurityGroupName": "mySG",
     "apiVersion": {
       "resources": { "deployments": "2015-01-01" },
-      "network": "2015-05-01-preview",
+      "network": "2015-05-01",
       "storage": "2015-05-01-preview",
       "compute": "2015-06-15"
     }
