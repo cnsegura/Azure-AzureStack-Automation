@@ -29,6 +29,8 @@
   <ItemGroup>
     <Content Include="azuredeploy.json" />
     <Content Include="AzureNic.json" />
+    <Content Include="AzureStackNic.json" />
+    <Content Include="AzureStackVnet.json" />
     <Content Include="AzureVnet.json" />
     <Content Include="install_Confluent_Storm.sh" />
   </ItemGroup>
