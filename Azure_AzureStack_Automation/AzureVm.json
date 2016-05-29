@@ -10,6 +10,9 @@
     },
     "adminPassword": {
       "type": "securestring"
+    },
+    "vmName": {
+      "type": "string"
     }
   },
   "variables": {
@@ -38,7 +41,7 @@
           "vmSize": "[variables('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[variables('vmName')]",
+          "computerName": "[parameters('vmName')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },

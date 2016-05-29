@@ -219,6 +219,9 @@
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
+          },
+          "vmName": {
+            "value": "[variables('vmName')]"
           }
         }
       }
