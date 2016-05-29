@@ -28,7 +28,7 @@
       "apiVersion": "[variables('apiVersion').network]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicName')]",
-      "location": "[variables('location')]",
+      "location": "[parameters('region')]",
       "ipConfigurations": [
         {
           "name": "ipconfig1",
