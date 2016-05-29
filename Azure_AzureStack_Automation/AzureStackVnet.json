@@ -7,7 +7,7 @@
     }
   },
   "variables": {
-    "nicName": "myVnic",
+    "nicName": "myVnic", 
     "addressPrefix": "10.0.0.0/24",
     "dnsserver": "192.168.100.2",
     "subnetName": "mySubnet",

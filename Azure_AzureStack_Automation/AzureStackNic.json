@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "region": {
-      "type": "string"
+      "type": "string" 
     },
     "nicName": {
       "type": "string"
