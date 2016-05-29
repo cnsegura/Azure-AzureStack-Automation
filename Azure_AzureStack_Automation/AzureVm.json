@@ -34,8 +34,8 @@
     {
       "apiVersion": "[variables('apiVersion').compute]",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[variables('vmName')]",
-      "location": "[variables('location')]",
+      "name": "[parameters('vmName')]",
+      "location": "[parameters('region')]",
       "properties": {
         "hardwareProfile": {
           "vmSize": "[variables('vmSize')]"
