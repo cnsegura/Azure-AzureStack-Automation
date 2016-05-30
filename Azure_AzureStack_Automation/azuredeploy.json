@@ -74,44 +74,15 @@
       "properties": {
         "securityRules": [
           {
-            "name": "ssh",
+            "name": "rule1",
             "properties": {
-              "description": "SSH port",
-              "protocol": "Tcp",
+              "protocol": "*",
               "sourcePortRange": "*",
-              "destinationPortRange": "22",
-              "sourceAddressPrefix": "Internet",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 100,
-              "direction": "Inbound"
-            }
-          },
-          {
-            "name": "KafkaREST",
-            "properties": {
-              "description": "Kafka REST port",
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "8082",
-              "sourceAddressPrefix": "Internet",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 101,
-              "direction": "Inbound"
-            }
-          },
-          {
-            "name": "StormUI",
-            "properties": {
-              "description": "Storm UI port",
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "8080",
-              "sourceAddressPrefix": "Internet",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 102,
               "direction": "Inbound"
             }
           }
