@@ -37,7 +37,7 @@
     <Content Include="install_Confluent_Storm.sh" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Script.ps1" />
+    <Compile Include="Azure_AzureStack_Deploy.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
