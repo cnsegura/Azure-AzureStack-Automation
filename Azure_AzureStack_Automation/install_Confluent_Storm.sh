@@ -72,7 +72,7 @@ sed -i 's/# nimbus.host: "nimbus"/nimbus.host: "localhost"/' $storm_server_path/
 
 # Add local demo script file (sends REST packages to Kafka from localhost)
 mkdir $HOME/Scripts
-cd $$HOME/Scripts
+cd $HOME/Scripts
 touch ./send_Kafka_temp.sh
 printf "#!/bin/bash\n" >> ./send_Kafka_temp.sh
 printf "timestamp() {date +'%Y-%m-%dT%T'}\n" >> ./send_Kafka_temp.sh
