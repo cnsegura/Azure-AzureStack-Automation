@@ -70,6 +70,21 @@ mv ./apache-storm-0.10.0 ./storm
 sed -i -e 's/# storm.zookeeper.servers:/storm.zookeeper.servers:/' -e '/storm.zookeeper.servers:/a\ - "localhost"' $storm_server_path/conf/storm.yaml
 sed -i 's/# nimbus.host: "nimbus"/nimbus.host: "localhost"/' $storm_server_path/conf/storm.yaml
 
-
-
-
+# Add local demo script file (sends REST packages to Kafka from localhost)
+mkdir $HOME/Scripts
+cd $$HOME/Scripts
+touch ./send_Kafka_temp.sh
+printf "#!/bin/bash\n" >> ./send_Kafka_temp.sh
+printf "timestamp() {date +'%Y-%m-%dT%T'}\n" >> ./send_Kafka_temp.sh
+printf "temp=50\n" >> ./send_Kafka_temp.sh
+printf "while [ true ]\n" >> ./send_Kafka_temp.sh
+printf "do\n" >> ./send_Kafka_temp.sh
+printf "curl -X POST -H" & " Content-Type: application/vnd.kafka.json.v1+json" "-d" '{"records":[{"value":{"Created":"'"$(timestamp)"'"}}, {"value":{"TemperatureinF":"'"${temp}"'"}}, {"value":{"Pressureinmb":"1001.64185"}}]}' "http://ecgcat-iot1.corp.microsoft.com:8082/topics/SensorData" >> ./send_Kafka_temp.sh
+printf "[ ""$temp"" = ""90"" ]\n" >> ./send_Kafka_temp.sh
+printf "then\n" >> ./send_Kafka_temp.sh
+printf "temp = $[temp=50]\n" >> ./send_Kafka_temp.sh
+printf "else" >> ./send_Kafka_temp.sh
+printf "temp=$[temp + 5]\n" >> ./send_Kafka_temp.sh
+printf "fi" >> ./send_Kafka_temp.sh
+printf "sleep 3" >> ./send_Kafka_temp.sh
+printf "done" >> ./send_Kafka_temp.sh
