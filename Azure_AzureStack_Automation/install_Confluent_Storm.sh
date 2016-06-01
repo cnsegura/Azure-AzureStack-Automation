@@ -88,3 +88,4 @@ printf "temp=$[temp + 5]\n" >> ./send_Kafka_temp.sh
 printf "fi" >> ./send_Kafka_temp.sh
 printf "sleep 3" >> ./send_Kafka_temp.sh
 printf "done" >> ./send_Kafka_temp.sh
+chmod +x ./send_Kafka_temp.sh
