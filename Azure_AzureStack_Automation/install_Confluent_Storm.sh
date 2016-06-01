@@ -71,8 +71,8 @@ sed -i -e 's/# storm.zookeeper.servers:/storm.zookeeper.servers:/' -e '/storm.zo
 sed -i 's/# nimbus.host: "nimbus"/nimbus.host: "localhost"/' $storm_server_path/conf/storm.yaml
 
 # Add local demo script file (sends REST packages to Kafka from localhost)
-mkdir $HOME/Scripts
-cd $HOME/Scripts
+mkdir /home/Scripts
+cd /home/Scripts
 touch ./send_Kafka_temp.sh
 printf "#!/bin/bash\n" >> ./send_Kafka_temp.sh
 printf "timestamp() {date +'%Y-%m-%dT%T'}\n" >> ./send_Kafka_temp.sh

@@ -7,9 +7,9 @@ Get-AzureRmSubscription -SubscriptionName "Visual Studio Enterprise" | Set-Azure
 # Set deployment location and resource group variables
 $locName = "West US" # Azure (change to the region of your choice)
 # $locName = "local" # Azure Stack
-$rgName = "iottest"
+$rgName = "iottest1"
 $deployName = "iottestdeploy"
-$scriptRoot = "C:\INSERT ROOT HERE"
+$scriptRoot = "C:\Users\chrisseg\Source\Repos\Azure_AzureStack_Automation\Azure_AzureStack_Automation"
 $templatePath = "$scriptRoot\azuredeploy.json"
 
 # Create Resource Group
