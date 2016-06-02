@@ -12,7 +12,7 @@ STORM_TAR_URL=http://www-us.apache.org/dist/storm/apache-storm-0.10.0/apache-sto
 
 #URI variables
 CONTENT_TYPE='"Content-Type: application/vnd.kafka.json.v1+json"'
-DATA_SET='{"records":[{"value":{"Created":"'"$(timestamp)"'"}}, {"value":{"TemperatureinF":"'"${temp}"'"}}, {"value":{"Pressureinmb":"1001.64185"}}]}'
+DATA_SET='{"records":[{"value":{"Created":""$(timestamp)""}}, {"value":{"TemperatureinF":""${temp}""}}, {"value":{"Pressureinmb":"1001.64185"}}]}'
 LOCAL_URI='"http://localhost:8082/topics/SensorData"'
 
 # add and update repos
@@ -79,11 +79,11 @@ printf "timestamp() {date +''%Y-%m-%dT%T''}\n" >> ./send_Kafka_temp.sh
 printf "temp=50\n" >> ./send_Kafka_temp.sh
 printf "while [ true ]\n" >> ./send_Kafka_temp.sh
 printf "do\n" >> ./send_Kafka_temp.sh
-printf "curl -X POST -H %s -d %s %s" "$CONTENT_TYPE" "$DATA_SET" "$LOCAL_URI\n"  >> ./send_Kafka_temp.sh
+printf "curl -X POST -H %s -d ''%s'' %s\n" "$CONTENT_TYPE" "$DATA_SET" "$LOCAL_URI"  >> ./send_Kafka_temp.sh
 printf '[ ""$temp"" = ""90"" ]\n' >> ./send_Kafka_temp.sh
 printf "then\n" >> ./send_Kafka_temp.sh
 printf "temp = $[temp=50]\n" >> ./send_Kafka_temp.sh
-printf "else" >> ./send_Kafka_temp.shs
+printf "else" >> ./send_Kafka_temp.sh
 printf "temp=$[temp + 5]\n" >> ./send_Kafka_temp.sh
 printf "fi" >> ./send_Kafka_temp.sh
 printf "sleep 3" >> ./send_Kafka_temp.sh
