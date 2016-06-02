@@ -9,7 +9,7 @@ $locName = "West US" # Azure (change to the region of your choice)
 # $locName = "local" # Azure Stack
 $rgName = "iottest"
 $deployName = "iottestdeploy"
-$scriptRoot = "C:\Users\chrisseg\Source\Repos\Azure-AzureStack-Automation\Azure_AzureStack_Automation"
+$scriptRoot = "C:\Users\chrisseg\Source\Repos\Azure_AzureStack_Automation\Azure_AzureStack_Automation"
 $templatePath = "$scriptRoot\azuredeploy.json"
 
 # Create Resource Group
