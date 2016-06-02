@@ -75,7 +75,7 @@ mkdir /home/Scripts
 cd /home/Scripts
 touch ./send_Kafka_temp.sh
 printf "#!/bin/bash\n\n" >> ./send_Kafka_temp.sh
-printf "timestamp() {date +''%Y-%m-%dT%T''}\n" >> ./send_Kafka_temp.sh
+printf 'timestamp() {date +''%Y-%m-%dT%T''}\n' >> ./send_Kafka_temp.sh
 printf "temp=50\n" >> ./send_Kafka_temp.sh
 printf "while [ true ]\n" >> ./send_Kafka_temp.sh
 printf "do\n" >> ./send_Kafka_temp.sh
