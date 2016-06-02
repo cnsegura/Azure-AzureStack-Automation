@@ -6,14 +6,14 @@
 
 # basic service and API settings
 storm_server_path=/usr/local/storm
-#minecraft_user=minecraft
-#minecraft_group=minecraft
-#UUID_URL=https://api.mojang.com/users/profiles/minecraft/$1
-#server_jar=minecraft_server.$2.jar
-#SERVER_JAR_URL=https://s3.amazonaws.com/Minecraft.Download/versions/$2/minecraft_server.$2.jar
 CONFLUENT_APTKEY_URL=http://packages.confluent.io/deb/2.0/archive.key
 CONFLUENT_APTREPO_URL=http://packages.confluent.io/deb/2.0
 STORM_TAR_URL=http://www-us.apache.org/dist/storm/apache-storm-0.10.0/apache-storm-0.10.0.tar.gz
+
+#URI variables
+CONTENT_TYPE='"Content-Type: application/vnd.kafka.json.v1+json"'
+DATA_SET='{"records":[{"value":{"Created":"'"$(timestamp)"'"}}, {"value":{"TemperatureinF":"'"${temp}"'"}}, {"value":{"Pressureinmb":"1001.64185"}}]}'
+LOCAL_URI='"http://localhost:8082/topics/SensorData"'
 
 # add and update repos
 while ! echo y | apt-add-repository -y ppa:webupd8team/java; do
@@ -74,16 +74,16 @@ sed -i 's/# nimbus.host: "nimbus"/nimbus.host: "localhost"/' $storm_server_path/
 mkdir /home/Scripts
 cd /home/Scripts
 touch ./send_Kafka_temp.sh
-printf "#!/bin/bash\n" >> ./send_Kafka_temp.sh
-printf "timestamp() {date +'%Y-%m-%dT%T'}\n" >> ./send_Kafka_temp.sh
+printf "#!/bin/bash\n\n" >> ./send_Kafka_temp.sh
+printf "timestamp() {date +''%Y-%m-%dT%T''}\n" >> ./send_Kafka_temp.sh
 printf "temp=50\n" >> ./send_Kafka_temp.sh
 printf "while [ true ]\n" >> ./send_Kafka_temp.sh
 printf "do\n" >> ./send_Kafka_temp.sh
-printf "curl -X POST -H" & " Content-Type: application/vnd.kafka.json.v1+json" "-d" '{"records":[{"value":{"Created":"'"$(timestamp)"'"}}, {"value":{"TemperatureinF":"'"${temp}"'"}}, {"value":{"Pressureinmb":"1001.64185"}}]}' "http://ecgcat-iot1.corp.microsoft.com:8082/topics/SensorData" >> ./send_Kafka_temp.sh
-printf "[ ""$temp"" = ""90"" ]\n" >> ./send_Kafka_temp.sh
+printf "curl -X POST -H %s -d %s %s" "$CONTENT_TYPE" "$DATA_SET" "$LOCAL_URI\n"  >> ./send_Kafka_temp.sh
+printf '[ ""$temp"" = ""90"" ]\n' >> ./send_Kafka_temp.sh
 printf "then\n" >> ./send_Kafka_temp.sh
 printf "temp = $[temp=50]\n" >> ./send_Kafka_temp.sh
-printf "else" >> ./send_Kafka_temp.sh
+printf "else" >> ./send_Kafka_temp.shs
 printf "temp=$[temp + 5]\n" >> ./send_Kafka_temp.sh
 printf "fi" >> ./send_Kafka_temp.sh
 printf "sleep 3" >> ./send_Kafka_temp.sh
