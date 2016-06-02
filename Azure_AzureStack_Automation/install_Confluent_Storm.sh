@@ -84,7 +84,7 @@ printf 'timestamp() {date + %s}\n\n' "$TIMESTAMP_FORMAT" >> ./send_Kafka_temp.sh
 printf "temp=50\n\n" >> ./send_Kafka_temp.sh
 printf "while [ true ]\n" >> ./send_Kafka_temp.sh
 printf "do\n" >> ./send_Kafka_temp.sh
-printf "\tcurl -X POST -H %s -d '%s''%s''%s''%s''%s' %s\n\n" "$CONTENT_TYPE" "$DATA_SET_HEADER" "$DATA_SET_FRONT" "$DATA_SET_MIDA" "$DATA_SET_MIDB" "$DATA_SET_END" "$LOCAL_URI"  >> ./send_Kafka_temp.sh
+printf "\tcurl -X POST -H %s -d '%s'%s'%s'%s'%s' %s\n\n" "$CONTENT_TYPE" "$DATA_SET_HEADER" "$DATA_SET_FRONT" "$DATA_SET_MIDA" "$DATA_SET_MIDB" "$DATA_SET_END" "$LOCAL_URI"  >> ./send_Kafka_temp.sh
 printf 'if [ "$temp" = "90" ]\n' >> ./send_Kafka_temp.sh
 printf "then\n" >> ./send_Kafka_temp.sh
 printf '\ttemp = $[temp=50]\n' >> ./send_Kafka_temp.sh
